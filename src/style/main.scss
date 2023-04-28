@@ -1,0 +1,14 @@
+@import "./helpers/style-reset.scss";
+@import "./helpers/vars.scss";
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1D2452;
+  font-size: 16px;
+  font-weight: 500;
+  background: $background-color;
+}
