@@ -20,12 +20,15 @@
       <ul class="nav__list">
         <li
           class="nav__item"
-          @click="nextPage(item)"
+          @click="changePage(item)"
           :class="{ nav__item_active: activeTab === item.component }"
           v-for="(item, index) in navigation"
           :key="item.title"
         >
-          <div class="nav__number" :class="{'nav__number_filled': item.checked}">
+          <div
+            class="nav__number"
+            :class="{ nav__number_filled: item.checked }"
+          >
             <span v-if="item.checked != true">{{ index + 1 }}</span>
             <svg
               v-else
@@ -50,15 +53,21 @@
         </li>
       </ul>
     </nav>
+    <form >
+      <component ref="currentComponent" @save="nextPage" :is="activeTab" />
+    </form>
   </div>
 </template>
 
 <script>
+import FormMain from "@/components/forms/FormMain.vue";
+import FormLocations from "./forms/FormLocations.vue";
+
 export default {
+  components: { FormMain, FormLocations },
   data() {
     return {
       activeTab: "FormLocations",
-
       navigation: [
         { title: "Main Info", component: "FormMain", checked: false },
         {
@@ -70,15 +79,24 @@ export default {
       ],
     };
   },
+  computed: {
+    currentIndex() {
+      return this.navigation.findIndex(e => e.component === this.activeTab)
+    }
+  },
   methods: {
-    nextPage(item) {
-      this.navigation.forEach(e => {
-        if (e.component === this.activeTab) {
-            e.checked = true;
-        }
-      })
+    changePage(item) {
+      this.$refs.currentComponent.saveInformation();
       this.activeTab = item.component;
     },
+    nextPage() {
+      this.navigation.forEach((e) => {
+        if (e.component === this.activeTab) {
+          e.checked = true;
+        }
+      });
+      this.activeTab = this.navigation[this.currentIndex + 1].component;
+    }
   },
 };
 </script>
@@ -113,7 +131,7 @@ export default {
   font-size: 1.5rem;
 }
 .nav {
-    margin: 14px 0;
+  margin: 14px 0;
 }
 .nav__list {
   display: flex;
@@ -127,7 +145,7 @@ export default {
   .nav__text {
     opacity: 0.5;
   }
-  
+
   margin-right: 24px;
   &::after {
     content: "";
@@ -162,8 +180,8 @@ export default {
   background-color: rgba($color: #5e6a75, $alpha: 0.05);
 }
 .nav__number_filled {
-    background-color: $accent-color !important;
-    opacity: 1 !important;
+  background-color: $accent-color !important;
+  opacity: 1 !important;
 }
 .nav__text {
   margin-left: 8px;
