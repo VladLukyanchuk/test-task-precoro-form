@@ -53,7 +53,7 @@
         </li>
       </ul>
     </nav>
-    <form >
+    <form class="form">
       <component ref="currentComponent" @save="nextPage" :is="activeTab" />
     </form>
   </div>
@@ -61,13 +61,14 @@
 
 <script>
 import FormMain from "@/components/forms/FormMain.vue";
-import FormLocations from "./forms/FormLocations.vue";
+import FormLocations from "@/components/forms/FormLocations.vue";
+import FormRoles from "@/components/forms/FormRoles.vue";
 
 export default {
-  components: { FormMain, FormLocations },
+  components: { FormMain, FormLocations, FormRoles },
   data() {
     return {
-      activeTab: "FormLocations",
+      activeTab: "FormRoles",
       navigation: [
         { title: "Main Info", component: "FormMain", checked: false },
         {
@@ -108,7 +109,7 @@ export default {
   position: relative;
   margin: 0px auto;
   margin-top: 36px;
-  padding: 24px;
+  padding: 24px 0;
   max-width: 867px;
   background-color: $card-background-color;
   box-shadow: 0px 8px 16px rgba(54, 62, 113, 0.24);
@@ -127,10 +128,12 @@ export default {
   }
 }
 .invite__title {
+  padding: 0 24px;
   font-weight: 600;
   font-size: 1.5rem;
 }
 .nav {
+  padding: 0 24px;
   margin: 14px 0;
 }
 .nav__list {

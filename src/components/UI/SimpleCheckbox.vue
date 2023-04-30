@@ -2,8 +2,10 @@
   <div class="checkbox__wrap">
     <label class="container">
       <input
-        :checked="modelValue"
-        @change="$emit('update:modelValue', $event.target.checked)"
+        :checked="isChecked"
+        :value="value"
+        :id="value"
+        @change="updateValue($event.target.value, $event.target.checked)"
         type="checkbox"
       />
       <div class="checkmark">
@@ -21,7 +23,7 @@
         </svg>
       </div>
     </label>
-    <span class="checkbox__title">{{ title }}</span>
+    <span v-if="title" class="checkbox__title">{{ title }}</span>
   </div>
 </template>
 
@@ -29,14 +31,34 @@
 export default {
   props: {
     modelValue: {
-      type: Boolean,
       required: false,
-      default: true,
     },
     title: {
       type: String,
+      required: false,
+    },
+    value: {
+      type: String,
+      required: false,
     },
   },
+  computed: {
+    isChecked() {
+      return this.modelValue.includes(this.value);
+    },
+  },
+  methods: {
+    updateValue(value, checked) {
+      const newValue = [...this.modelValue];
+      if (checked) {
+        newValue.push(value);
+      } else {
+        const index = newValue.indexOf(value);
+        newValue.splice(index, 1);
+      }
+      this.$emit('update:modelValue', newValue);
+    }
+  }
 };
 </script>
 

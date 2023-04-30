@@ -86,7 +86,7 @@ export default {
 
 <style lang="scss" scoped>
 .location__inputs {
-  padding: 24px 0;
+  padding: 24px;
   border-top: 2px solid rgba($color: #000000, $alpha: 0.1);
   border-bottom: 2px solid rgba($color: #000000, $alpha: 0.1);
 }
