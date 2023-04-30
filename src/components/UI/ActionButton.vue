@@ -1,8 +1,18 @@
 <template>
-  <button class="button">
+  <button :disabled="disabled" class="button">
     <slot></slot>
   </button>
 </template>
+
+<script>
+export default {
+  computed: {
+    disabled() {
+      return this.$store.getters.getFormStatus;
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .button {

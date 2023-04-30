@@ -17,13 +17,25 @@ export default createStore({
         availableLocations: [],
       },
       roles: {
-        access: {},
-        management: {},
+        access: {
+          "Warehouse requests": [],
+          "Purchase requests": ["View only"],
+          "Request for proposals": ["View only"],
+          "Purchase orders": ["View only"],
+          Receipts: ["View only"],
+          Invoices: ["View only"],
+          Expenses: ["View only"],
+        },
+        management: [],
         admin: false,
       },
     },
+    formSent: false,
   },
   getters: {
+    getForm(state) {
+      return state.form;
+    },
     getMain(state) {
       return state.form.main;
     },
@@ -33,6 +45,9 @@ export default createStore({
     getRoles(state) {
       return state.form.roles;
     },
+    getFormStatus(state) {
+      return state.formSent;
+    }
   },
   mutations: {
     setMain(state, obj) {
@@ -43,6 +58,10 @@ export default createStore({
     },
     setRoles(state, obj) {
       state.form.roles = obj;
+    },
+    setFormStatus(state, status) {
+      state.formSent = status;
+      console.log('vuex', state.formSent)
     },
   },
   actions: {},

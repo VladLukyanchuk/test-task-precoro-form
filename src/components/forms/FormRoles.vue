@@ -26,7 +26,11 @@
               />
             </div>
           </div>
-          <div class="access__item" v-for="item in titlesAccess" :key="item.title">
+          <div
+            class="access__item"
+            v-for="item in titlesAccess"
+            :key="item.title"
+          >
             <div class="access__item-name">{{ item.title }}</div>
             <div class="access__checkboxes">
               <simple-checkbox
@@ -121,7 +125,7 @@
     </div>
   </div>
   <div class="roles__actions">
-    <action-button @click="saveInformation">Invite User</action-button>
+    <action-button @click="sendForm">Invite User</action-button>
   </div>
 </template>
 
@@ -202,33 +206,36 @@ export default {
       });
     },
   },
-  emits: ['save'],
+  emits: ["save"],
   methods: {
     saveInformation() {
-     const rolesForm = {
+      const rolesForm = {
         access: {},
         management: {},
-        admin: false
-     }
-     this.titlesAccess.forEach((elem) => {
-        rolesForm.access[elem.title] = elem.checked
-     })
-     rolesForm.management = this.titlesManagement.selected
-     rolesForm.admin = this.titlesManagement.admin.length ? true : false
-     console.log(rolesForm)
+        admin: false,
+      };
+      this.titlesAccess.forEach((elem) => {
+        rolesForm.access[elem.title] = elem.checked;
+      });
+      rolesForm.management = this.titlesManagement.selected;
+      rolesForm.admin = this.titlesManagement.admin.length ? true : false;
       this.$store.commit("setRoles", rolesForm);
     },
-    nextPage() {
+    sendForm() {
       this.saveInformation();
-      this.$emit("save");
+      this.$store.commit("setFormStatus", true);
+      const form = this.$store.getters.getForm;
+      console.log(form);
+
     },
   },
   created() {
     const rolesForm = this.$store.getters.getRoles;
-    console.log(rolesForm)
     this.titlesAccess.forEach((elem) => {
-       elem.checked = rolesForm.access[elem.title]
-    })
+      elem.checked = rolesForm.access[elem.title];
+    });
+    this.titlesManagement.selected = rolesForm.management;
+    this.titlesManagement.admin = rolesForm.admin ? ["admin"] : [];
   },
 };
 </script>
@@ -366,9 +373,9 @@ export default {
   }
 }
 .roles__actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-    margin-right: 24px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 24px;
 }
 </style>

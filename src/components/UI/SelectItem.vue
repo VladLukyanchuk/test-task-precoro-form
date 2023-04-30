@@ -1,11 +1,12 @@
 <template>
   <div class="select-wrap">
-    <label for="name">{{ label }} <span v-if="required" >*</span></label>
+    <label for="name">{{ label }} <span v-if="required">*</span></label>
     <select
       id="name"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       class="select"
+      :disabled="disabled"
     >
       <option v-for="option in options" :key="option" :value="option">
         {{ option }}
@@ -44,7 +45,12 @@ export default {
       type: Boolean,
       required: false,
       default: false,
-    }
+    },
+  },
+  computed: {
+    disabled() {
+      return this.$store.getters.getFormStatus;
+    },
   },
 };
 </script>
@@ -63,7 +69,7 @@ export default {
     cursor: pointer;
   }
   span {
-    color: #F5455A;
+    color: #f5455a;
   }
 }
 

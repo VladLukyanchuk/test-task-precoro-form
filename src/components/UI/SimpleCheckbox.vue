@@ -3,6 +3,7 @@
     <label class="container">
       <input
         :checked="isChecked"
+        :disabled="disabled"
         :value="value"
         :id="value"
         @change="updateValue($event.target.value, $event.target.checked)"
@@ -44,32 +45,43 @@ export default {
   },
   computed: {
     isChecked() {
-      return this.modelValue.includes(this.value);
+      if (Array.isArray(this.modelValue)) {
+        return this.modelValue.includes(this.value);
+      } else {
+        return this.modelValue;
+      }
     },
+    disabled() {
+      return this.$store.getters.getFormStatus
+    }
   },
   methods: {
     updateValue(value, checked) {
-      const newValue = [...this.modelValue];
-      if (checked) {
-        newValue.push(value);
+      if (Array.isArray(this.modelValue)) {
+        const newValue = [...this.modelValue];
+        if (checked) {
+          newValue.push(value);
+        } else {
+          const index = newValue.indexOf(value);
+          newValue.splice(index, 1);
+        }
+        this.$emit("update:modelValue", newValue);
       } else {
-        const index = newValue.indexOf(value);
-        newValue.splice(index, 1);
+        this.$emit("update:modelValue", checked);
       }
-      this.$emit('update:modelValue', newValue);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/style/helpers/vars.scss";
 .checkbox__wrap {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .checkbox__title {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 .container input {
   position: absolute;

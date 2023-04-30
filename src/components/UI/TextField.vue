@@ -4,6 +4,7 @@
     <input
       id="name"
       :type="type"
+      :disabled="disabled"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       class="field"
@@ -27,6 +28,11 @@ export default {
       default: "text",
     },
   },
+  computed: {
+    disabled() {
+      return this.$store.getters.getFormStatus
+    }
+  }
 };
 </script>
 

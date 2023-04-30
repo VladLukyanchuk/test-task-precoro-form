@@ -62,7 +62,6 @@ export default {
   methods: {
     saveInformation() {
       this.locationsForm.availableLocations = this.checked.map((e) => e.title);
-      console.log(this.locationsForm.availableLocations);
       this.$store.commit("setLocations", this.locationsForm);
     },
     nextPage() {
@@ -72,7 +71,6 @@ export default {
   },
   created() {
     this.locationsForm = this.$store.getters.getLocations;
-    console.log(this.locationsForm.availableLocations);
     this.locations.forEach((elem) => {
       if (this.locationsForm.availableLocations.indexOf(elem.title) != -1) {
         elem.checked = true;
@@ -87,8 +85,8 @@ export default {
 <style lang="scss" scoped>
 .location__inputs {
   padding: 24px;
-  border-top: 2px solid rgba($color: #000000, $alpha: 0.1);
-  border-bottom: 2px solid rgba($color: #000000, $alpha: 0.1);
+  border-top: 1px solid rgba($color: #000000, $alpha: 0.1);
+  border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
 }
 .location__select {
   margin-bottom: 24px;
@@ -115,6 +113,6 @@ export default {
 .location__actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin: 20px 24px 0 0;
 }
 </style>

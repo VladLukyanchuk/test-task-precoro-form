@@ -2,6 +2,7 @@
   <div class="checkbox">
     <input
       class="checkbox__input"
+      :disabled="disabled"
       :checked="modelValue"
       @change="$emit('update:modelValue', $event.target.checked)"
       id="check"
@@ -20,6 +21,11 @@ export default {
       default: true,
     },
   },
+  computed: {
+    disabled() {
+      return this.$store.getters.getFormStatus
+    }
+  }
 };
 </script>
 

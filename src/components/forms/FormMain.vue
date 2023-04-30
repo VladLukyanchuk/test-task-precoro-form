@@ -61,9 +61,9 @@ export default {
 <style lang="scss" scoped>
 
 .main__inputs {
-  padding: 24px 0;
-  border-top: 2px solid rgba($color: #000000, $alpha: 0.1);
-  border-bottom: 2px solid rgba($color: #000000, $alpha: 0.1);
+  padding: 24px 24px 32px 24px;
+  border-top: 1px solid rgba($color: #000000, $alpha: 0.1);
+  border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(245px, 345px));
   grid-gap: 20px;
@@ -71,7 +71,7 @@ export default {
 .main__actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin: 20px 24px 0 24px;
 }
 .main__switch {
   display: flex;
