@@ -2,7 +2,7 @@
 
 ## Project Demo
 ```
-[https://endearing-medovik-d0ad82.netlify.app/]()
+[Try it out](https://endearing-medovik-d0ad82.netlify.app)
 ```
 ## Project setup
 ```
