@@ -1,5 +1,9 @@
 # precoro_test_task
 
+## Project Demo
+```
+https://endearing-medovik-d0ad82.netlify.app/
+```
 ## Project setup
 ```
 npm install
