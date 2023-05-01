@@ -61,7 +61,6 @@ export default createStore({
     },
     setFormStatus(state, status) {
       state.formSent = status;
-      console.log('vuex', state.formSent)
     },
   },
   actions: {},

@@ -30,14 +30,15 @@ export default {
   },
   computed: {
     disabled() {
-      return this.$store.getters.getFormStatus
-    }
-  }
+      return this.$store.getters.getFormStatus;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .field-wrap {
+  max-width: 345px;
   label {
     font-size: 12px;
     color: rgba(29, 36, 82, 0.5);
@@ -49,15 +50,15 @@ export default {
   border-radius: 8px;
   height: 40px;
   width: 100%;
+
   padding: 9px 8px;
   margin-top: 4px;
   font-weight: 500;
   font-size: 16px;
-  &:focus, &:hover{
+  &:focus,
+  &:hover {
     outline: none;
     border: 1px solid rgba(29, 36, 82, 0.2);
   }
 }
-
-
 </style>

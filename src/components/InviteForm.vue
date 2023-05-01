@@ -54,7 +54,7 @@
       </ul>
     </nav>
     <form class="form">
-      <component ref="currentComponent" @save="nextPage" :is="activeTab" />
+        <component ref="currentComponent" @save="nextPage" :is="activeTab" />
     </form>
   </div>
 </template>
@@ -86,10 +86,12 @@ export default {
     },
   },
   methods: {
+    // handler tabs change
     changePage(item) {
       this.$refs.currentComponent.saveInformation();
       this.activeTab = item.component;
     },
+    //onComponentEmit
     nextPage() {
       this.navigation.forEach((e) => {
         if (e.component === this.activeTab) {
@@ -193,4 +195,6 @@ export default {
 .nav__text {
   margin-left: 8px;
 }
+
+
 </style>

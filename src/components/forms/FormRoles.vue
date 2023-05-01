@@ -187,14 +187,23 @@ export default {
     };
   },
   watch: {
-    allBelow(newValue) {
-      newValue.forEach((checked) => {
+    allBelow(newValue, oldValue) {
+      if (oldValue.length > newValue.length) {
+        let popValue = oldValue.filter((e) => !newValue.includes(e))[0];
         this.titlesAccess.forEach((e) => {
-          if (e.access.includes(checked) && !e.checked.includes(checked)) {
-            e.checked.push(checked);
+          if (e.checked.includes(popValue)) {
+            e.checked.splice(e.checked.indexOf(popValue), 1);
           }
         });
-      });
+      } else {
+        newValue.forEach((checked) => {
+          this.titlesAccess.forEach((e) => {
+            if (e.access.includes(checked) && !e.checked.includes(checked)) {
+              e.checked.push(checked);
+            }
+          });
+        });
+      }
     },
     allBelowManagement(newValue) {
       this.managementCheckboxValues.forEach((e) => {
@@ -352,9 +361,9 @@ export default {
     border-bottom: 1px solid #dddee5;
   }
   .management {
-  padding-left: 0;
-  padding-top: 32px;
-}
+    padding-left: 0;
+    padding-top: 32px;
+  }
 }
 @media (max-width: 440px) {
   .access__values {

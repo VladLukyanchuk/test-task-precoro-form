@@ -1,15 +1,17 @@
 <template>
-  <div class="main__inputs">
-    <text-field type="text" label="First Name" v-model="mainForm.firstName" />
-    <text-field type="text" label="Last Name" v-model="mainForm.lastName" />
-    <text-field type="email" label="Email Address" v-model="mainForm.email" />
-    <text-field type="tel" label="Phone Number" v-model="mainForm.phone" />
-    <text-field type="text" label="Position" v-model="mainForm.position" />
-    <select-item
-      label="Available in company"
-      :options="companyOptions"
-      v-model="mainForm.company"
-    />
+  <div class="main__wrapper">
+    <div class="main__inputs">
+      <text-field type="text" label="First Name" v-model="mainForm.firstName" />
+      <text-field type="text" label="Last Name" v-model="mainForm.lastName" />
+      <text-field type="email" label="Email Address" v-model="mainForm.email" />
+      <text-field type="tel" label="Phone Number" v-model="mainForm.phone" />
+      <text-field type="text" label="Position" v-model="mainForm.position" />
+      <select-item
+        label="Available in company"
+        :options="companyOptions"
+        v-model="mainForm.company"
+      />
+    </div>
   </div>
   <div class="main__actions">
     <div class="main__switch">
@@ -59,12 +61,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main__inputs {
-  padding: 24px 24px 32px 24px;
+.main__wrapper {
   border-top: 1px solid rgba($color: #000000, $alpha: 0.1);
   border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+  padding: 24px 24px 32px 24px;
+}
+.main__inputs {
+  max-width: 710px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(245px, 345px));
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
   grid-gap: 20px;
 }
 .main__actions {
