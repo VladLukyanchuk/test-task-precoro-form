@@ -226,7 +226,6 @@ export default {
       this.$store.commit("setFormStatus", true);
       const form = this.$store.getters.getForm;
       console.log(form);
-
     },
   },
   created() {
@@ -253,7 +252,6 @@ export default {
 .access {
   padding-right: 15px;
   border-right: 1px solid #dddee5;
-  //border-radius: 2px;
 }
 .access__header {
   line-height: 150%;
@@ -266,7 +264,7 @@ export default {
   font-weight: 600;
 }
 .access__values {
-  width: 300px;
+  //max-width: 300px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-items: center;
@@ -341,6 +339,36 @@ export default {
     }
   }
 }
+@media (max-width: 740px) {
+  .roles__inputs {
+    display: grid;
+    max-width: 540px;
+    grid-template-columns: 1fr;
+  }
+  .access {
+    padding-right: 0;
+    border-right: none;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #dddee5;
+  }
+  .management {
+  padding-left: 0;
+  padding-top: 32px;
+}
+}
+@media (max-width: 440px) {
+  .access__values {
+    grid-template-columns: 50px 50px 50px 50px;
+    column-gap: 16px;
+  }
+  .access__item-name {
+    margin-right: 0;
+  }
+  .access__checkboxes {
+    grid-template-columns: 50px 50px 50px 50px;
+    column-gap: 16px;
+  }
+}
 .roles__warn-card {
   max-width: 636px;
   margin-top: 32px;
@@ -362,6 +390,7 @@ export default {
 }
 .roles__link {
   position: relative;
+  font-size: 16px;
   &::after {
     content: "";
     position: absolute;

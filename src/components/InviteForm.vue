@@ -68,7 +68,7 @@ export default {
   components: { FormMain, FormLocations, FormRoles },
   data() {
     return {
-      activeTab: "FormRoles",
+      activeTab: "FormMain",
       navigation: [
         { title: "Main Info", component: "FormMain", checked: false },
         {
@@ -82,8 +82,8 @@ export default {
   },
   computed: {
     currentIndex() {
-      return this.navigation.findIndex(e => e.component === this.activeTab)
-    }
+      return this.navigation.findIndex((e) => e.component === this.activeTab);
+    },
   },
   methods: {
     changePage(item) {
@@ -97,7 +97,7 @@ export default {
         }
       });
       this.activeTab = this.navigation[this.currentIndex + 1].component;
-    }
+    },
   },
 };
 </script>
@@ -150,6 +150,9 @@ export default {
   }
 
   margin-right: 24px;
+  &:last-child {
+    margin-right: 0;
+  }
   &::after {
     content: "";
     position: absolute;
@@ -177,6 +180,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 30px;
   height: 30px;
   border-radius: 50%;

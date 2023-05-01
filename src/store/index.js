@@ -14,7 +14,7 @@ export default createStore({
       },
       locations: {
         mainLocation: "Main Precoro US",
-        availableLocations: [],
+        availableLocations: ["Berlin", "Venice Office", "USA Office"],
       },
       roles: {
         access: {
