@@ -47,26 +47,12 @@
       <div class="management">
         <div class="management__header">
           Management:
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M10 1.75C5.44321 1.75 1.75 5.44321 1.75 10C1.75 14.5568 5.44321 18.25 10 18.25C14.5568 18.25 18.25 14.5568 18.25 10C18.25 5.44321 14.5568 1.75 10 1.75ZM0.25 10C0.25 4.61479 4.61479 0.25 10 0.25C15.3852 0.25 19.75 4.61479 19.75 10C19.75 15.3852 15.3852 19.75 10 19.75C4.61479 19.75 0.25 15.3852 0.25 10ZM10 5.25C10.4142 5.25 10.75 5.58579 10.75 6V7C10.75 7.41421 10.4142 7.75 10 7.75C9.58579 7.75 9.25 7.41421 9.25 7V6C9.25 5.58579 9.58579 5.25 10 5.25ZM10 9.25C10.4142 9.25 10.75 9.58579 10.75 10V15C10.75 15.4142 10.4142 15.75 10 15.75C9.58579 15.75 9.25 15.4142 9.25 15V10C9.25 9.58579 9.58579 9.25 10 9.25Z"
-              fill="#676F8F"
-            />
-          </svg>
+          <infoIcon />
         </div>
         <div class="management__item">
           <simple-checkbox
             label="All below"
             class="font__bold"
-            value="allBelow"
             @update:modelValue="updateManagementSelected"
             :modelValue="allManagement"
           />
@@ -91,41 +77,12 @@
             value="admin"
             v-model="management.admin"
           />
-
-          <svg
-            width="22"
-            height="20"
-            viewBox="0 0 22 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11 7V11.5M11 14.5V15M3.38254 19H18.6175C20.1387 19 21.103 17.3691 20.3699 16.0362L12.7524 2.18624C11.9926 0.80469 10.0074 0.804688 9.24757 2.18624L1.63011 16.0362C0.897013 17.3691 1.86134 19 3.38254 19Z"
-              stroke="#EA9210"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <warnIcon />
         </div>
       </div>
     </div>
     <div class="roles__warn-card">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M10 1.75C5.44321 1.75 1.75 5.44321 1.75 10C1.75 14.5568 5.44321 18.25 10 18.25C14.5568 18.25 18.25 14.5568 18.25 10C18.25 5.44321 14.5568 1.75 10 1.75ZM0.25 10C0.25 4.61479 4.61479 0.25 10 0.25C15.3852 0.25 19.75 4.61479 19.75 10C19.75 15.3852 15.3852 19.75 10 19.75C4.61479 19.75 0.25 15.3852 0.25 10ZM10 5.25C10.4142 5.25 10.75 5.58579 10.75 6V7C10.75 7.41421 10.4142 7.75 10 7.75C9.58579 7.75 9.25 7.41421 9.25 7V6C9.25 5.58579 9.58579 5.25 10 5.25ZM10 9.25C10.4142 9.25 10.75 9.58579 10.75 10V15C10.75 15.4142 10.4142 15.75 10 15.75C9.58579 15.75 9.25 15.4142 9.25 15V10C9.25 9.58579 9.58579 9.25 10 9.25Z"
-          fill="#676F8F"
-        />
-      </svg>
-
+      <infoIcon />
       <p class="roles__warn-text">
         The user becomes a
         <a target="blank" class="roles__link" href="https://precoro.com/product"
@@ -142,11 +99,14 @@
 </template>
 
 <script>
+import warnIcon from '@/assets/svg/warnIcon.vue';
+import infoIcon from '@/assets/svg/infoLightIcon.vue';
+
 export default {
+  components: {warnIcon, infoIcon},
   data() {
     return {
       accessCheckboxValues: ["View only", "Create", "Approve", "Pay"],
-      allBelow: [],
       titlesAccess: [
         {
           title: "Warehouse requests",
@@ -206,10 +166,10 @@ export default {
     allAccess() {
       const statusObj = {};
       this.accessCheckboxValues.forEach((checkbox) => {
-        const filtered = this.titlesAccess.filter(elem => {
+        const filtered = this.titlesAccess.filter((elem) => {
           return elem.access.includes(checkbox);
         });
-        
+
         const status = filtered.every((elem) => {
           return elem.checked.includes(checkbox);
         });
@@ -227,22 +187,31 @@ export default {
         : [];
     },
     updateAccessSelected(checked, value) {
-      console.log(checked, value)
-      this.titlesAccess.forEach ( elem => {
+      this.titlesAccess.forEach((elem) => {
         if (elem.access.includes(value)) {
-          checked ? elem.checked.push(value) : elem.checked.splice(elem.checked.indexOf(value), 1)
+          checked
+            ? elem.checked.push(value)
+            : elem.checked.splice(elem.checked.indexOf(value), 1);
+          //filter duplicates
+          elem.checked = elem.checked.filter((item, index) => {
+            const firstIndex = elem.checked.indexOf(item);
+            return index === firstIndex;
+          });
         }
-      })
+      });
     },
     saveInformation() {
       const rolesForm = {
         access: {},
-        management: {},
+        management: [],
+        admin: false,
       };
       this.titlesAccess.forEach((elem) => {
         rolesForm.access[elem.title] = elem.checked;
       });
-      rolesForm.management = this.management;
+      rolesForm.management = this.management.selected;
+      rolesForm.admin = this.management.admin;
+      console.log(rolesForm);
       this.$store.commit("setRoles", rolesForm);
     },
     sendForm() {
@@ -257,7 +226,8 @@ export default {
     this.titlesAccess.forEach((elem) => {
       elem.checked = rolesForm.access[elem.title];
     });
-    /* this.titlesManagement.selected = rolesForm.management; */
+    this.management.selected = rolesForm.management;
+    this.management.admin = rolesForm.admin;
   },
 };
 </script>
@@ -398,6 +368,7 @@ export default {
   align-items: center;
   svg {
     margin-right: 8px;
+    opacity: .5;
     flex-shrink: 0;
   }
 }
@@ -409,7 +380,7 @@ export default {
 }
 .roles__link {
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   &::after {
     content: "";
     position: absolute;

@@ -1,20 +1,6 @@
 <template>
   <div class="invite__card">
-    <svg
-      class="invite__close-icon"
-      width="26"
-      height="26"
-      viewBox="0 0 26 26"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M13 2C6.92428 2 2 6.92428 2 13C2 19.0757 6.92428 24 13 24C19.0757 24 24 19.0757 24 13C24 6.92428 19.0757 2 13 2ZM0 13C0 5.81972 5.81972 0 13 0C20.1803 0 26 5.81972 26 13C26 20.1803 20.1803 26 13 26C5.81972 26 0 20.1803 0 13ZM8.51956 8.51956C8.91008 8.12904 9.54325 8.12904 9.93377 8.51956L13 11.5858L16.0662 8.51956C16.4568 8.12904 17.0899 8.12904 17.4804 8.51956C17.871 8.91008 17.871 9.54325 17.4804 9.93377L14.4142 13L17.4804 16.0662C17.871 16.4568 17.871 17.0899 17.4804 17.4804C17.0899 17.871 16.4568 17.871 16.0662 17.4804L13 14.4142L9.93377 17.4804C9.54325 17.871 8.91008 17.871 8.51956 17.4804C8.12904 17.0899 8.12904 16.4568 8.51956 16.0662L11.5858 13L8.51956 9.93377C8.12904 9.54325 8.12904 8.91008 8.51956 8.51956Z"
-        fill="#676F8F"
-      />
-    </svg>
+    <closeIcon class="invite__close-icon"/>
     <h2 class="invite__title">Invite User</h2>
     <nav class="nav">
       <ul class="nav__list">
@@ -30,22 +16,7 @@
             :class="{ nav__number_filled: item.checked }"
           >
             <span v-if="item.checked != true">{{ index + 1 }}</span>
-            <svg
-              v-else
-              width="11"
-              height="9"
-              viewBox="0 0 11 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M1.40039 5.2001L3.80039 7.6001L9.80039 1.6001"
-                stroke="white"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <checkedIcon v-else />
           </div>
           <div class="nav__text">
             {{ item.title }}
@@ -64,8 +35,11 @@ import FormMain from "@/components/forms/FormMain.vue";
 import FormLocations from "@/components/forms/FormLocations.vue";
 import FormRoles from "@/components/forms/FormRoles.vue";
 
+import closeIcon from "@/assets/svg/closeIcon.vue";
+import checkedIcon from "@/assets/svg/checkedIcon.vue";
+
 export default {
-  components: { FormMain, FormLocations, FormRoles },
+  components: { FormMain, FormLocations, FormRoles, closeIcon, checkedIcon },
   data() {
     return {
       activeTab: "FormMain",
@@ -127,12 +101,6 @@ export default {
   cursor: pointer;
   top: 24px;
   right: 24px;
-  path {
-    transition: all 0.3s;
-  }
-  &:hover path {
-    fill: $accent-color;
-  }
 }
 .invite__title {
   padding: 0 24px;

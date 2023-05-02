@@ -10,18 +10,7 @@
         type="checkbox"
       />
       <span class="checkmark">
-        <svg
-          width="10"
-          height="8"
-          viewBox="0 0 10 8"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3.82918 7.73564C3.73372 7.83166 3.60349 7.88523 3.46821 7.88523C3.33292 7.88523 3.20269 7.83166 3.10723 7.73564L0.224383 4.85232C-0.0747942 4.55315 -0.0747942 4.06801 0.224383 3.7694L0.585358 3.40833C0.884628 3.10915 1.3692 3.10915 1.66838 3.40833L3.46821 5.20825L8.3316 0.344759C8.63087 0.0455824 9.11591 0.0455824 9.41462 0.344759L9.7756 0.705828C10.0748 1.005 10.0748 1.49004 9.7756 1.78875L3.82918 7.73564Z"
-            fill="white"
-          />
-        </svg>
+        <checkBoxIcon/>
       </span>
       <span v-bind="$attrs" v-if="label" class="checkbox__title">{{
         label
@@ -31,7 +20,10 @@
 </template>
 
 <script>
+import checkBoxIcon from '@/assets/svg/checkBoxIcon.vue';
+
 export default {
+  components: { checkBoxIcon},
   props: {
     modelValue: {
       required: false,
