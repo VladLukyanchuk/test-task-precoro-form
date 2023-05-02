@@ -1,8 +1,8 @@
 <template>
   <div class="select-wrap">
-    <label for="name">{{ label }} <span v-if="required">*</span></label>
+    <label for="select">{{ label }} <span v-if="required">*</span></label>
     <select
-      id="name"
+      id="select"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       class="select"

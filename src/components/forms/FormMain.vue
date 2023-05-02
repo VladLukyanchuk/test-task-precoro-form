@@ -1,11 +1,36 @@
 <template>
   <div class="main__wrapper">
     <div class="main__inputs">
-      <text-field type="text" label="First Name" v-model="mainForm.firstName" />
-      <text-field type="text" label="Last Name" v-model="mainForm.lastName" />
-      <text-field type="email" label="Email Address" v-model="mainForm.email" />
-      <text-field type="tel" label="Phone Number" v-model="mainForm.phone" />
-      <text-field type="text" label="Position" v-model="mainForm.position" />
+      <text-field
+        type="text"
+        label="First Name"
+        v-model="mainForm.firstName"
+        id="firstName"
+      />
+      <text-field
+        type="text"
+        label="Last Name"
+        v-model="mainForm.lastName"
+        id="firstName"
+      />
+      <text-field
+        type="email"
+        label="Email Address"
+        v-model="mainForm.email"
+        id="email"
+      />
+      <text-field
+        type="tel"
+        label="Phone Number"
+        v-model="mainForm.phone"
+        id="phone"
+      />
+      <text-field
+        type="text"
+        label="Position"
+        v-model="mainForm.position"
+        id="position"
+      />
       <select-item
         label="Available in company"
         :options="companyOptions"
@@ -15,8 +40,10 @@
   </div>
   <div class="main__actions">
     <div class="main__switch">
-      <switch-checkbox v-model="mainForm.activeInAllCompanies" />
-      <div class="main__switch-description">Active in all companies</div>
+      <switch-checkbox
+        v-model="mainForm.activeInAllCompanies"
+        label="Active in all companies"
+      />
       <svg
         width="20"
         height="20"

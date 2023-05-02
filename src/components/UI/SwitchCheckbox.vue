@@ -1,15 +1,19 @@
 <template>
-  <div class="checkbox">
-    <input
-      class="checkbox__input"
-      :disabled="disabled"
-      :checked="modelValue"
-      @change="$emit('update:modelValue', $event.target.checked)"
-      id="check"
-      type="checkbox"
-    />
-    <label for="check"></label>
-  </div>
+  <label class="checkbox__wrap">
+    <div class="checkbox">
+      <input
+        class="checkbox__input"
+        :disabled="disabled"
+        :checked="modelValue"
+        @change="$emit('update:modelValue', $event.target.checked)"
+        id="check"
+        type="checkbox"
+      />
+      <label for="check"></label>
+    </div>
+
+    <span v-if="label" class="checkbox__title">{{ label }}</span>
+  </label>
 </template>
 
 <script>
@@ -20,17 +24,26 @@ export default {
       required: false,
       default: true,
     },
+    label: {
+      type: String,
+      required: false,
+    },
   },
   computed: {
     disabled() {
-      return this.$store.getters.getFormStatus
-    }
-  }
+      return this.$store.getters.getFormStatus;
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "@/style/helpers/vars.scss";
+.checkbox__wrap {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
 .checkbox {
   position: relative;
   width: 44px;
@@ -43,8 +56,12 @@ export default {
     height: 24px;
     border-radius: 50px;
     background: rgba($color: #5e6a75, $alpha: 0.1);
-    cursor: pointer;
     transition: all 0.3s ease;
+  }
+  .checkbox__content {
+    position: absolute;
+    top: 0;
+    right: -10px;
   }
 }
 
@@ -70,5 +87,8 @@ export default {
 
 .checkbox__input {
   display: none;
+}
+.checkbox__title {
+  margin-left: 8px;
 }
 </style>

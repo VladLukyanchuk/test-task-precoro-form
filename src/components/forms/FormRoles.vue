@@ -19,10 +19,11 @@
             <div class="access__below">All bellow</div>
             <div class="access__checkboxes">
               <simple-checkbox
-                v-for="checkbox in accessCheckboxValues"
+                v-for="(value, checkbox) in allAccess"
                 :value="checkbox"
                 :key="checkbox"
-                v-model="allBelow"
+                @update:modelValue="updateAccessSelected"
+                :modelValue="value"
               />
             </div>
           </div>
@@ -62,39 +63,50 @@
           </svg>
         </div>
         <div class="management__item">
-          <simple-checkbox value="allBelow" v-model="allBelowManagement" />
-          <span class="management__text management__text_all-below"
+          <simple-checkbox
+            label="All below"
+            class="font__bold"
+            value="allBelow"
+            @update:modelValue="updateManagementSelected"
+            :modelValue="allManagement"
+          />
+          <!-- <span class="management__text management__text_all-below"
             >All bellow</span
-          >
+          > -->
         </div>
         <div
           class="management__item"
           v-for="value in managementCheckboxValues"
           :key="value"
         >
-          <simple-checkbox :value="value" v-model="titlesManagement.selected" />
-          <span class="management__text">{{ value }}</span>
+          <simple-checkbox
+            :label="value"
+            :value="value"
+            v-model="management.selected"
+          />
         </div>
         <div class="management__item management__item_admin">
-          <simple-checkbox value="admin" v-model="titlesManagement.admin" />
-          <span class="management__text">
-            Admin (Full access)
-            <svg
-              width="22"
-              height="20"
-              viewBox="0 0 22 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11 7V11.5M11 14.5V15M3.38254 19H18.6175C20.1387 19 21.103 17.3691 20.3699 16.0362L12.7524 2.18624C11.9926 0.80469 10.0074 0.804688 9.24757 2.18624L1.63011 16.0362C0.897013 17.3691 1.86134 19 3.38254 19Z"
-                stroke="#EA9210"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
+          <simple-checkbox
+            label="Admin (Full access)"
+            value="admin"
+            v-model="management.admin"
+          />
+
+          <svg
+            width="22"
+            height="20"
+            viewBox="0 0 22 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M11 7V11.5M11 14.5V15M3.38254 19H18.6175C20.1387 19 21.103 17.3691 20.3699 16.0362L12.7524 2.18624C11.9926 0.80469 10.0074 0.804688 9.24757 2.18624L1.63011 16.0362C0.897013 17.3691 1.86134 19 3.38254 19Z"
+              stroke="#EA9210"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </div>
       </div>
     </div>
@@ -172,7 +184,6 @@ export default {
           access: ["View only", "Create", "Approve", "Pay"],
         },
       ],
-      allBelowManagement: [],
       managementCheckboxValues: [
         "Configuration",
         "Suppliers and items",
@@ -180,54 +191,58 @@ export default {
         "Warehouse manager",
         "Reports",
       ],
-      titlesManagement: {
+      management: {
         selected: [],
-        admin: [],
+        admin: false,
       },
     };
   },
-  watch: {
-    allBelow(newValue, oldValue) {
-      if (oldValue.length > newValue.length) {
-        let popValue = oldValue.filter((e) => !newValue.includes(e))[0];
-        this.titlesAccess.forEach((e) => {
-          if (e.checked.includes(popValue)) {
-            e.checked.splice(e.checked.indexOf(popValue), 1);
-          }
-        });
-      } else {
-        newValue.forEach((checked) => {
-          this.titlesAccess.forEach((e) => {
-            if (e.access.includes(checked) && !e.checked.includes(checked)) {
-              e.checked.push(checked);
-            }
-          });
-        });
-      }
+  computed: {
+    allManagement() {
+      return (
+        this.managementCheckboxValues.length === this.management.selected.length
+      );
     },
-    allBelowManagement(newValue) {
-      this.managementCheckboxValues.forEach((e) => {
-        if (newValue.length) {
-          this.titlesManagement.selected.push(e);
-        } else {
-          this.titlesManagement.selected = [];
-        }
+    allAccess() {
+      const statusObj = {};
+      this.accessCheckboxValues.forEach((checkbox) => {
+        const filtered = this.titlesAccess.filter(elem => {
+          return elem.access.includes(checkbox);
+        });
+        
+        const status = filtered.every((elem) => {
+          return elem.checked.includes(checkbox);
+        });
+
+        statusObj[checkbox] = status;
       });
+      return statusObj;
     },
   },
   emits: ["save"],
   methods: {
+    updateManagementSelected(value) {
+      this.management.selected = value
+        ? [...this.managementCheckboxValues]
+        : [];
+    },
+    updateAccessSelected(checked, value) {
+      console.log(checked, value)
+      this.titlesAccess.forEach ( elem => {
+        if (elem.access.includes(value)) {
+          checked ? elem.checked.push(value) : elem.checked.splice(elem.checked.indexOf(value), 1)
+        }
+      })
+    },
     saveInformation() {
       const rolesForm = {
         access: {},
         management: {},
-        admin: false,
       };
       this.titlesAccess.forEach((elem) => {
         rolesForm.access[elem.title] = elem.checked;
       });
-      rolesForm.management = this.titlesManagement.selected;
-      rolesForm.admin = this.titlesManagement.admin.length ? true : false;
+      rolesForm.management = this.management;
       this.$store.commit("setRoles", rolesForm);
     },
     sendForm() {
@@ -242,8 +257,7 @@ export default {
     this.titlesAccess.forEach((elem) => {
       elem.checked = rolesForm.access[elem.title];
     });
-    this.titlesManagement.selected = rolesForm.management;
-    this.titlesManagement.admin = rolesForm.admin ? ["admin"] : [];
+    /* this.titlesManagement.selected = rolesForm.management; */
   },
 };
 </script>
@@ -340,12 +354,8 @@ export default {
 }
 .management__item_admin {
   margin-top: auto;
-  span {
-    display: flex;
-    align-items: center;
-    svg {
-      margin-left: 16px;
-    }
+  svg {
+    margin-left: 16px;
   }
 }
 @media (max-width: 740px) {
@@ -415,5 +425,8 @@ export default {
   justify-content: flex-end;
   margin-top: 20px;
   margin-right: 24px;
+}
+.font__bold {
+  font-weight: 600;
 }
 </style>

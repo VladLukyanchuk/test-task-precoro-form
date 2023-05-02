@@ -1,12 +1,12 @@
 <template>
   <div class="field-wrap">
-    <label for="name">{{ label }}</label>
+    <label :for="id">{{ label }}</label>
     <input
-      id="name"
+      :id="id"
       :type="type"
       :disabled="disabled"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="onInput($event.target.value)"
       class="field"
     />
   </div>
@@ -27,10 +27,27 @@ export default {
       required: false,
       default: "text",
     },
+    id: {
+      type: String,
+      required: false,
+      default: "text-field",
+    }
   },
   computed: {
     disabled() {
       return this.$store.getters.getFormStatus;
+    },
+  },
+  emits: ["update:modelValue"],
+  methods: {
+    onInput(value) {
+      if (this.type === "tel") {
+        let phone = value.replace(/\D+/g, ""); // видаляємо всі не цифрові символи
+        phone = "+" + phone.replace(/(\d{2})(\d{3})(\d{3})(\d{2})(\d{2})/, "$1 $2 $3 $4 $5");
+        this.$emit("update:modelValue", phone);
+      } else {
+        this.$emit("update:modelValue", value);
+      }
     },
   },
 };

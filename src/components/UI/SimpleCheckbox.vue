@@ -9,7 +9,7 @@
         @change="updateValue($event.target.value, $event.target.checked)"
         type="checkbox"
       />
-      <div class="checkmark">
+      <span class="checkmark">
         <svg
           width="10"
           height="8"
@@ -22,9 +22,11 @@
             fill="white"
           />
         </svg>
-      </div>
+      </span>
+      <span v-bind="$attrs" v-if="label" class="checkbox__title">{{
+        label
+      }}</span>
     </label>
-    <span v-if="title" class="checkbox__title">{{ title }}</span>
   </div>
 </template>
 
@@ -34,7 +36,7 @@ export default {
     modelValue: {
       required: false,
     },
-    title: {
+    label: {
       type: String,
       required: false,
     },
@@ -45,19 +47,22 @@ export default {
   },
   computed: {
     isChecked() {
-      if (Array.isArray(this.modelValue)) {
+      if (this.isArray) {
         return this.modelValue.includes(this.value);
       } else {
         return this.modelValue;
       }
     },
+    isArray() {
+      return Array.isArray(this.modelValue)
+    },
     disabled() {
-      return this.$store.getters.getFormStatus
-    }
+      return this.$store.getters.getFormStatus;
+    },
   },
   methods: {
     updateValue(value, checked) {
-      if (Array.isArray(this.modelValue)) {
+      if (this.isArray) {
         const newValue = [...this.modelValue];
         if (checked) {
           newValue.push(value);
@@ -67,7 +72,7 @@ export default {
         }
         this.$emit("update:modelValue", newValue);
       } else {
-        this.$emit("update:modelValue", checked);
+        this.$emit("update:modelValue", checked, this.value);
       }
     },
   },
@@ -83,20 +88,20 @@ export default {
 .checkbox__title {
   margin-left: 8px;
 }
-.container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
 
 .container {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
   cursor: pointer;
-  font-size: 20px;
   user-select: none;
+  input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
 }
 
 /* Create a custom checkbox */

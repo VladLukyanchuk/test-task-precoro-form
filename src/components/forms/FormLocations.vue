@@ -8,14 +8,19 @@
       v-model="locationsForm.mainLocation"
     />
 
-    <simple-checkbox v-model="selectAll" title="Select All Locations" />
+    <simple-checkbox
+      @update:modelValue="updateSelectedLocations"
+      :modelValue="selectAll"
+      label="Select All Locations"
+    />
     <h3 class="location__title">Available Locations</h3>
     <div class="locations__available-wrapper">
       <simple-checkbox
         v-for="location in locations"
-        :key="location.title"
-        v-model="location.checked"
-        :title="location.title"
+        :key="location"
+        :value="location"
+        v-model="locationsForm.availableLocations"
+        :label="location"
       />
     </div>
   </div>
@@ -30,38 +35,35 @@ export default {
   components: { SimpleCheckbox },
   data() {
     return {
-      selectAll: false,
       locationsForm: {
         mainLocation: "Main Precoro US",
         availableLocations: [],
       },
       locations: [
-        { title: "Berlin", checked: true },
-        { title: "Poland Office", checked: false },
-        { title: "Venice Office", checked: true },
-        { title: "Mexico", checked: false },
-        { title: "USA Office", checked: true },
-        { title: "Ukraine Kiyv Lukivska 7 Main Office", checked: false },
-        { title: "Canada", checked: false },
+        "Berlin",
+        "Poland Office",
+        "Venice Office",
+        "Mexico",
+        "USA Office",
+        "Ukraine Kiyv Lukivska 7 Main Office",
+        "Canada",
       ],
-      locationOptions: ["Main Precoro US"],
+      locationOptions: ["Main Precoro US", "Othe location 1", "Othe location 2"],
     };
   },
   computed: {
-    checked() {
-      const checked = this.locations.filter((e) => e.checked === true);
-      return checked;
+    selectAll() {
+      return (
+        this.locations.length === this.locationsForm.availableLocations.length
+      );
     },
   },
-  watch: {
-    selectAll(value) {
-      this.locations.forEach((item) => (item.checked = value));
-    },
-  },
-  emits: ['save'],
+  emits: ["save"],
   methods: {
+    updateSelectedLocations(value) {
+      this.locationsForm.availableLocations = value ? [...this.locations] : [];
+    },
     saveInformation() {
-      this.locationsForm.availableLocations = this.checked.map((e) => e.title);
       this.$store.commit("setLocations", this.locationsForm);
     },
     nextPage() {
@@ -71,13 +73,6 @@ export default {
   },
   created() {
     this.locationsForm = this.$store.getters.getLocations;
-    this.locations.forEach((elem) => {
-      if (this.locationsForm.availableLocations.indexOf(elem.title) != -1) {
-        elem.checked = true;
-      } else {
-        elem.checked = false;
-      }
-    });
   },
 };
 </script>
