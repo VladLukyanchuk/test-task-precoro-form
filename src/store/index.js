@@ -10,10 +10,10 @@ export default createStore({
         phone: "",
         position: "",
         activeInAllCompanies: true,
-        company: "",
+        company: "Precoro",
       },
       locations: {
-        mainLocation: "",
+        mainLocation: "Main Precoro US",
         availableLocations: [],
       },
       roles: {

@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       locationsForm: {
-        mainLocation: "Main Precoro US",
+        mainLocation: "",
         availableLocations: [],
       },
       locations: [
