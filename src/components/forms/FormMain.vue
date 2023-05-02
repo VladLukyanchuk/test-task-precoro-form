@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       mainForm: {},
-      companyOptions: ["Precoro", "Other company", "Other company"],
+      companyOptions: ["Precoro", "Another company 1", "Another company 2"],
     };
   },
   emits: ["save"],

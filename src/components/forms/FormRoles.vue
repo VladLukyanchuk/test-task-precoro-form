@@ -211,14 +211,13 @@ export default {
       });
       rolesForm.management = this.management.selected;
       rolesForm.admin = this.management.admin;
-      console.log(rolesForm);
       this.$store.commit("setRoles", rolesForm);
     },
     sendForm() {
       this.saveInformation();
       this.$store.commit("setFormStatus", true);
       const form = this.$store.getters.getForm;
-      console.log(form);
+      console.log(JSON.stringify(form));
     },
   },
   created() {

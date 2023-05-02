@@ -48,7 +48,7 @@ export default {
         "Ukraine Kiyv Lukivska 7 Main Office",
         "Canada",
       ],
-      locationOptions: ["Main Precoro US", "Othe location 1", "Othe location 2"],
+      locationOptions: ["Main Precoro US", "Another location 1", "Another location 2"],
     };
   },
   computed: {
