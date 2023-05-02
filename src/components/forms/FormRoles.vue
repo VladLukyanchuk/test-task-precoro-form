@@ -343,6 +343,9 @@ export default {
     padding-left: 0;
     padding-top: 32px;
   }
+  .management__item_admin {
+  margin-top: 24px;
+}
 }
 @media (max-width: 440px) {
   .access__values {
