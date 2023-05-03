@@ -31,18 +31,18 @@ export default {
       type: String,
       required: false,
       default: "text-field",
-    }
-  },
-  computed: {
-    disabled() {
-      return this.$store.getters.getFormStatus;
     },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   emits: ["update:modelValue"],
   methods: {
     onInput(value) {
       if (this.type === "tel") {
-        let phone = value.replace(/\D+/g, ""); // видаляємо всі не цифрові символи
+        let phone = value.replace(/\D+/g, ""); 
         phone = "+" + phone.replace(/(\d{2})(\d{3})(\d{3})(\d{2})(\d{2})/, "$1 $2 $3 $4 $5");
         this.$emit("update:modelValue", phone);
       } else {

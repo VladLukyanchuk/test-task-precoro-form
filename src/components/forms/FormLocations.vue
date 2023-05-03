@@ -6,12 +6,14 @@
       :required="true"
       :options="locationOptions"
       v-model="locationsForm.mainLocation"
+      :disabled="disabled"
     />
 
     <simple-checkbox
       @update:modelValue="updateSelectedLocations"
       :modelValue="selectAll"
       label="Select All Locations"
+      :disabled="disabled"
     />
     <h3 class="location__title">Available Locations</h3>
     <div class="locations__available-wrapper">
@@ -21,11 +23,12 @@
         :value="location"
         v-model="locationsForm.availableLocations"
         :label="location"
+        :disabled="disabled"
       />
     </div>
   </div>
   <div class="location__actions">
-    <action-button @click="nextPage">Next Step</action-button>
+    <action-button :disabled="disabled" @click="nextPage">Next Step</action-button>
   </div>
 </template>
 
@@ -48,7 +51,11 @@ export default {
         "Ukraine Kiyv Lukivska 7 Main Office",
         "Canada",
       ],
-      locationOptions: ["Main Precoro US", "Another location 1", "Another location 2"],
+      locationOptions: [
+        "Main Precoro US",
+        "Another location 1",
+        "Another location 2",
+      ],
     };
   },
   computed: {
@@ -56,6 +63,9 @@ export default {
       return (
         this.locations.length === this.locationsForm.availableLocations.length
       );
+    },
+    disabled() {
+      return this.$store.getters.getFormStatus;
     },
   },
   emits: ["save"],

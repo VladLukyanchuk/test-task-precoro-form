@@ -36,6 +36,11 @@ export default {
       type: String,
       required: false,
     },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
   computed: {
     isChecked() {
@@ -47,9 +52,6 @@ export default {
     },
     isArray() {
       return Array.isArray(this.modelValue)
-    },
-    disabled() {
-      return this.$store.getters.getFormStatus;
     },
   },
   methods: {

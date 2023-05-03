@@ -6,35 +6,41 @@
         label="First Name"
         v-model="mainForm.firstName"
         id="firstName"
+        :disabled="disabled"
       />
       <text-field
         type="text"
         label="Last Name"
         v-model="mainForm.lastName"
         id="firstName"
+        :disabled="disabled"
       />
       <text-field
         type="email"
         label="Email Address"
         v-model="mainForm.email"
         id="email"
+        :disabled="disabled"
       />
       <text-field
         type="tel"
         label="Phone Number"
         v-model="mainForm.phone"
         id="phone"
+        :disabled="disabled"
       />
       <text-field
         type="text"
         label="Position"
         v-model="mainForm.position"
         id="position"
+        :disabled="disabled"
       />
       <select-item
         label="Available in company"
         :options="companyOptions"
         v-model="mainForm.company"
+        :disabled="disabled"
       />
     </div>
   </div>
@@ -43,23 +49,29 @@
       <switch-checkbox
         v-model="mainForm.activeInAllCompanies"
         label="Active in all companies"
+        :disabled="disabled"
       />
-      <infoIcon/>
+      <infoIcon />
     </div>
-    <action-button class="main__btn" @click="nextPage">Next Step</action-button>
+    <action-button :disabled="disabled" class="main__btn" @click="nextPage">Next Step</action-button>
   </div>
 </template>
 
 <script>
-import infoIcon from "@/assets/svg/infoIcon.vue"
+import infoIcon from "@/assets/svg/infoIcon.vue";
 
 export default {
-  components: { infoIcon},
+  components: { infoIcon },
   data() {
     return {
       mainForm: {},
       companyOptions: ["Precoro", "Another company 1", "Another company 2"],
     };
+  },
+  computed: {
+    disabled() {
+      return this.$store.getters.getFormStatus;
+    },
   },
   emits: ["save"],
   methods: {

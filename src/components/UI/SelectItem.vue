@@ -46,11 +46,11 @@ export default {
       required: false,
       default: false,
     },
-  },
-  computed: {
-    disabled() {
-      return this.$store.getters.getFormStatus;
-    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
   },
 };
 </script>

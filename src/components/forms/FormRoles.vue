@@ -24,6 +24,7 @@
                 :key="checkbox"
                 @update:modelValue="updateAccessSelected"
                 :modelValue="value"
+                :disabled="disabled"
               />
             </div>
           </div>
@@ -39,6 +40,7 @@
                 :value="value"
                 :key="value"
                 v-model="item.checked"
+                :disabled="disabled"
               />
             </div>
           </div>
@@ -55,6 +57,7 @@
             class="font__bold"
             @update:modelValue="updateManagementSelected"
             :modelValue="allManagement"
+            :disabled="disabled"
           />
           <!-- <span class="management__text management__text_all-below"
             >All bellow</span
@@ -66,6 +69,7 @@
           :key="value"
         >
           <simple-checkbox
+          :disabled="disabled"
             :label="value"
             :value="value"
             v-model="management.selected"
@@ -73,6 +77,7 @@
         </div>
         <div class="management__item management__item_admin">
           <simple-checkbox
+            :disabled="disabled"
             label="Admin (Full access)"
             value="admin"
             v-model="management.admin"
@@ -94,16 +99,16 @@
     </div>
   </div>
   <div class="roles__actions">
-    <action-button @click="sendForm">Invite User</action-button>
+    <action-button :disabled="disabled" @click="sendForm">Invite User</action-button>
   </div>
 </template>
 
 <script>
-import warnIcon from '@/assets/svg/warnIcon.vue';
-import infoIcon from '@/assets/svg/infoLightIcon.vue';
+import warnIcon from "@/assets/svg/warnIcon.vue";
+import infoIcon from "@/assets/svg/infoLightIcon.vue";
 
 export default {
-  components: {warnIcon, infoIcon},
+  components: { warnIcon, infoIcon },
   data() {
     return {
       accessCheckboxValues: ["View only", "Create", "Approve", "Pay"],
@@ -177,6 +182,9 @@ export default {
         statusObj[checkbox] = status;
       });
       return statusObj;
+    },
+    disabled() {
+      return this.$store.getters.getFormStatus;
     },
   },
   emits: ["save"],
@@ -344,8 +352,8 @@ export default {
     padding-top: 32px;
   }
   .management__item_admin {
-  margin-top: 24px;
-}
+    margin-top: 24px;
+  }
 }
 @media (max-width: 440px) {
   .access__values {
@@ -370,7 +378,7 @@ export default {
   align-items: center;
   svg {
     margin-right: 8px;
-    opacity: .5;
+    opacity: 0.5;
     flex-shrink: 0;
   }
 }

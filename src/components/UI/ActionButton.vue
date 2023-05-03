@@ -6,11 +6,13 @@
 
 <script>
 export default {
-  computed: {
-    disabled() {
-      return this.$store.getters.getFormStatus;
-    },
-  },
+  props: {
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    }
+  }
 };
 </script>
 
